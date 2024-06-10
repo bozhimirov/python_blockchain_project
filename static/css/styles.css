@@ -1,0 +1,143 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    color: #333;
+}
+
+.container {
+    text-align: center;
+    height: 100vh;
+}
+
+.title {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.block, .new-block {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.block {
+    width: 700px;
+}
+
+.data {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    white-space: pre-wrap;
+}
+
+#n-data{
+    margin-bottom: 10px;
+}
+
+.data label {
+    /*margin-right: 20px;*/
+    font-weight: bold;
+    margin: auto 20px auto 0;
+}
+
+.data input {
+    flex: 1.5;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    max-width: 500px;
+}
+
+.hashes p {
+    margin: 10px 0;
+    font-weight: bold;
+    text-align: left;
+}
+
+.hash {
+    background-color: #e0ffe0;
+    border-radius: 5px;
+    display: inline-block;
+    max-width: 100%;
+    overflow-x: auto;
+    font-family: monospace;
+    font-size: 15px;
+    margin-left: 86px;
+}
+.p_hash {
+    font-size: 15px;
+    color: #005926;
+    font-family: monospace;
+}
+
+.genesis-block {
+    margin-top: 20px;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+}
+
+.genesis-block p {
+    font-weight: bold;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.genesis-block span {
+    font-weight: normal;
+    margin: 0 20px 0 0;
+}
+
+.block-number {
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: right;
+}
+
+.new-block {
+    display: flex;
+    width: 700px;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+
+.add-block {
+    align-items: center;
+    margin-top: 20px;
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-block:hover {
+    background-color: #ff4757;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+form input{
+    width: 500px;
+}
+
+form button{
+    width: 300px;
+}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blockchain Demo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+</script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">BLOCKCHAIN</h1>
+
+        <div class="new-block">
+                <div class="data">
+                    <form method="Post" action=/>
+                        <label id="n-data" for="new-data">DATA</label>
+                        <input type="text" name="new-data" id="new-data">
+{#                        <textarea id="freeform" name="new-data" id="new-data" rows="5" cols="85">#}
+{#                        </textarea>#}
+
+                        <button type="submit" class="add-block">+ ADD NEW BLOCK</button>
+                    </form>
+                </div>
+            </div>
+        {% for block in all_chain[::-1] %}
+            <div class="block">
+            <div class="data" >
+
+                <label  for="data">DATA</label>
+                <input type="text" id="data" value="{{ block.split(', ')[1].split(':')[1].strip()[1:-1].replace(',; ', ', ') }}" readonly="readonly">
+{#                <textarea  id="data" rows="5" cols="80" readonly="readonly" >{{ block.split(', ')[1].split(':')[1].strip()[1:-1].replace(',; ', ', ') }}#}
+{#                </textarea>#}
+            </div>
+            <div class="hashes">
+                <p>PREVIOUS HASH <span class="p_hash">{{ block.split(', ')[3].split(':')[1].strip()[1:-1] }}</span></p>
+                <p><span>HASH</span> <span class="hash">{{ block.split(', ')[2].split(':')[1].strip()[1:-1] }}</span></p>
+            </div>
+            <div class="genesis-block">
+                <p>
+                    {% if all_chain|length - loop.index == 0 %}
+                    GENESIS BLOCK
+                    {% else %}
+                    BLOCK № {{ all_chain|length - loop.index }}
+                    {% endif %}
+                </p>
+{#                    <span>on  {{ block.split(', ')[0].split(':')[1].strip()[1:-1] }}</span></p>#}
+                <span class="block-number"># {{ block.split(', ')[4].split(':')[1].strip()[1:-1] }}</span>
+            </div>
+        </div>
+
+        {% endfor %}
+    </div>
+</body>
+</html>
