@@ -1,9 +1,10 @@
 import ast
 import json
 import os
+
+from active_chain import ActiveChain
 from block import Block
 from get_diff import get_difficulty
-from active_chain import ActiveChain
 
 
 class Blockchain:
@@ -164,7 +165,7 @@ class Blockchain:
         Return:
         None
         """
-        self.difficulty = get_difficulty() + 1
+        self.difficulty = get_difficulty(ActiveChain.WRITE_PATH) + 1
 
     def check_for_difficulty_change(self) -> None:
         """

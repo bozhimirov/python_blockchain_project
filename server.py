@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request
 from flask_restful import Api
+
+from active_chain import ActiveChain
 from block import Block
 from blockchain import Blockchain
-from active_chain import ActiveChain
 from get_diff import get_difficulty
 
 app = Flask(__name__)
