@@ -52,8 +52,10 @@ class ActiveChain:
                 self.print_in_terminal_block_validated()
                 self.print_in_terminal_block_mined()
 
-    def print_in_terminal_block_mined(self) -> None:
-        print(f'Block # {len(self.blockchain.blockchain()) - 1} mined')
+    @staticmethod
+    def print_in_terminal_block_mined() -> None:
+        from project import blockchain_as_list
+        print(f'Block # {len(blockchain_as_list()) - 1} mined')
 
     def print_in_terminal_block_validated(self) -> None:
         print(f'New block with hash {self.blockchain.last_block.current_hash} successfully validated')

@@ -4,7 +4,6 @@ import os
 
 from active_chain import ActiveChain
 from block import Block
-from get_diff import get_difficulty
 
 
 class Blockchain:
@@ -68,27 +67,8 @@ class Blockchain:
                      difficulty=self.last_block['difficulty'], nonce=self.last_block['nonce'],
                      timestamp=self.last_block['timestamp'], current_hash=self.last_block['currentBlockHash'])
 
-    @staticmethod
-    def blockchain(file=ActiveChain.WRITE_PATH) -> list:
-        """
-        This function check if there is a file used as a blockchain and if there is such a file extracts the block's
-        data and save each block data in a list.
-
-        Parameters:
-            file (file): The file used as blockchain.
-
-        Return:
-        list: Return list of string representations of the blocks in the blockchain file.
-        """
-        blockchain_list = []
-        if os.path.isfile(file):
-            with open(file, 'r') as f:
-                jsonData = json.load(f)
-                for line in jsonData:
-                    blockchain_list.append(line)
-        return blockchain_list
-
     def create_genesis_block(self) -> dict:
+        from project import make_data
         """
         This function creates the first genesis block of the blockchain with predefined data with the hash according to
         the current difficulty of the blockchain. Creates dictionary with the values for all the attributes of the
@@ -99,11 +79,12 @@ class Blockchain:
         """
         start_block = Block("Genesis Block", '0', self.difficulty)
         start_block.proof_of_work()
-        data = self.make_data(start_block)
+        data = make_data(start_block)
         self.last_block = start_block
         return data
 
     def add_block(self, new_block) -> dict:
+        from project import make_data
         """
         This function check if the difficulty has to be increased and then creates suitable hash for the new block
         for the blockchain. Creates dictionary with the values for all the attributes of the current block. And update
@@ -117,29 +98,8 @@ class Blockchain:
         """
         self.check_for_difficulty_change()
         new_block.proof_of_work()
-        data = self.make_data(new_block)
+        data = make_data(new_block)
         self.last_block = new_block
-        return data
-
-    @staticmethod
-    def make_data(block) -> dict:
-        """
-        This function creates dictionary with the values for all the attributes of the current block.
-
-        Parameters:
-            block (Block): The block that has to be added to the blockchain.
-
-        Return:
-        dict: Return all the attributes for the current block as a dictionary.
-        """
-        data = {
-            "timestamp": str(block.timestamp),
-            "data": str(block.data),
-            "currentBlockHash": str(block.current_hash),
-            "previousBlockHash": str(block.previous_hash),
-            "nonce": str(block.nonce),
-            "difficulty": str(block.difficulty),
-        }
         return data
 
     def is_valid(self, block) -> bool:
@@ -159,15 +119,17 @@ class Blockchain:
         return True
 
     def change_difficulty(self) -> None:
+        from project import get_difficulty as get_diff
         """
         This function increases the current difficulty of the blockchain by one.
 
         Return:
         None
         """
-        self.difficulty = get_difficulty(ActiveChain.WRITE_PATH) + 1
+        self.difficulty = get_diff(ActiveChain.WRITE_PATH) + 1
 
     def check_for_difficulty_change(self) -> None:
+        from project import blockchain_as_list
         """
         This function check if there is a need for increasing the current difficulty of the blockchain by one according
         to the blocks_adjustment constant.
@@ -175,6 +137,5 @@ class Blockchain:
         Return:
         None
         """
-        if len(self.blockchain()) % self.BLOCKS_ADJUSTMENT == 0:
+        if len(blockchain_as_list()) % self.BLOCKS_ADJUSTMENT == 0:
             self.change_difficulty()
-
