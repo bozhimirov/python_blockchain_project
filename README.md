@@ -45,8 +45,7 @@ http://localhost:5000
 
 ## Description
 
-#### **static**
-### **css**
+#### **static/css**
 In styles.css are all the formatting of the html template
 
 #### **templates**
