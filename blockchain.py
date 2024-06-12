@@ -131,7 +131,7 @@ class Blockchain:
     def check_for_difficulty_change(self) -> None:
         from project import blockchain_as_list
         """
-        This function check if there is a need for increasing the current difficulty of the blockchain by one according
+        This function check if there is a need of increasing the current difficulty of the blockchain by one according
         to the blocks_adjustment constant.
 
         Return:
