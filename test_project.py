@@ -1,6 +1,5 @@
 import ast
 import os
-
 import pytest
 
 from block import Block
@@ -8,8 +7,8 @@ from active_chain import ActiveChain
 from blockchain import Blockchain
 from project import get_difficulty, blockchain_as_list, make_data
 
-file = 'data.json'
-# file = 'demo.json'
+# file = 'data.json'
+file = 'demo.json'
 
 
 def remove_file():
@@ -38,7 +37,7 @@ def test_block_with_difficulty():
 def test_blockchain_creation():
     remove_file()
     assert os.path.isfile(file) == False
-    test_chain = Blockchain()
+    test_chain = Blockchain(write_path=file)
     assert os.path.isfile(file) == True
     assert test_chain.last_block.data == 'Genesis Block'
     remove_file()
@@ -46,20 +45,19 @@ def test_blockchain_creation():
 
 def test_blockchain_add_block():
     remove_file()
-    test_chain = Blockchain()
-    active = ActiveChain(test_chain)
-    assert len(blockchain_as_list()) == 1
+    test_chain = Blockchain(write_path=file)
+    active = ActiveChain(test_chain, write_path=file)
     block = Block('a', active.blockchain.last_block.current_hash, active.blockchain.difficulty)
     active.add_to_chain(block)
-    assert len(blockchain_as_list()) == 2
+    assert len(blockchain_as_list(file=file)) == 2
     assert test_chain.last_block.data == 'a'
     remove_file()
 
 
 def test_make_block_from_chain():
     remove_file()
-    test_chain = Blockchain()
-    active = ActiveChain(test_chain)
+    test_chain = Blockchain(write_path=file)
+    active = ActiveChain(test_chain, write_path=file)
     block = Block('a', active.blockchain.last_block.current_hash, active.blockchain.difficulty)
     active.add_to_chain(block)
     active.blockchain.last_block = None
@@ -77,8 +75,8 @@ def test_make_block_from_chain():
 
 def test_block_valid():
     remove_file()
-    test_chain = Blockchain()
-    active = ActiveChain(test_chain)
+    test_chain = Blockchain(write_path=file)
+    active = ActiveChain(test_chain, write_path=file)
     block = Block('a', active.blockchain.last_block.current_hash, active.blockchain.difficulty)
     active.add_to_chain(block)
     active.blockchain.last_block = active.blockchain.get_last_block()
@@ -93,45 +91,45 @@ def test_block_valid():
 
 def test_change_difficulty():
     remove_file()
-    test_chain = Blockchain()
-    active = ActiveChain(test_chain)
+    test_chain = Blockchain(write_path=file)
+    active = ActiveChain(test_chain, write_path=file)
     active.blockchain.BLOCKS_ADJUSTMENT = 2
     assert active.blockchain.difficulty == 0
-    block = Block('a', active.blockchain.last_block.current_hash, active.blockchain.difficulty)
-    active.add_to_chain(block)
-    block = Block('a', active.blockchain.last_block.current_hash, active.blockchain.difficulty)
-    active.add_to_chain(block)
+    block1 = Block('a', active.blockchain.last_block.current_hash, active.blockchain.difficulty)
+    active.add_to_chain(block1)
+    block2 = Block('a', active.blockchain.last_block.current_hash, active.blockchain.difficulty)
+    active.add_to_chain(block2)
     assert active.blockchain.difficulty == 1
     remove_file()
 
 
 def test_get_difficulty():
     remove_file()
-    test_chain = Blockchain()
-    active = ActiveChain(test_chain)
+    test_chain = Blockchain(write_path=file)
+    active = ActiveChain(test_chain, write_path=file)
     assert active.blockchain.difficulty == 0
-    assert active.blockchain.difficulty == get_difficulty(file)
+    assert active.blockchain.difficulty == get_difficulty(file=file)
     remove_file()
 
 
 def test_blockchain_as_list():
     remove_file()
-    test_chain = Blockchain()
-    active = ActiveChain(test_chain)
-    assert len(blockchain_as_list(file)) == 1
+    test_chain = Blockchain(write_path=file)
+    active = ActiveChain(test_chain, write_path=file)
+    assert len(blockchain_as_list(file=file)) == 1
     block = Block('a', active.blockchain.last_block.current_hash, active.blockchain.difficulty)
     active.add_to_chain(block)
     active.blockchain.add_block(block)
-    assert len(blockchain_as_list(file)) == 2
-    res = ast.literal_eval(blockchain_as_list(file)[-1])
+    assert len(blockchain_as_list(file=file)) == 2
+    res = ast.literal_eval(blockchain_as_list(file=file)[-1])
     assert res == active.blockchain.get_last_block()
     remove_file()
 
 
 def test_make_data():
     remove_file()
-    test_chain = Blockchain()
-    active = ActiveChain(test_chain)
+    test_chain = Blockchain(write_path=file)
+    active = ActiveChain(test_chain, write_path=file)
     block = Block('a', active.blockchain.last_block.current_hash, active.blockchain.difficulty)
     block_data_dict = make_data(block)
     assert block_data_dict['timestamp'] == str(block.timestamp)
@@ -143,5 +141,4 @@ def test_make_data():
     assert block_data_dict['nonce'] == str(block.nonce)
     assert block_data_dict['difficulty'] == str(block.difficulty)
     assert block_data_dict['difficulty'] == str(active.blockchain.difficulty)
-
     remove_file()

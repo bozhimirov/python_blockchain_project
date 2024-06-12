@@ -17,7 +17,7 @@ class Blockchain:
     # A constant that shows how many block have to be mined before increasing the difficulty of the blockchain
     BLOCKS_ADJUSTMENT = 2016
 
-    def __init__(self, difficulty=0) -> None:
+    def __init__(self, difficulty=0, write_path='data.json') -> None:
         """
         Initializes a Blockchain object.
 
@@ -29,12 +29,13 @@ class Blockchain:
         None
         """
         self.difficulty = difficulty
+        self.write_path = write_path
         self.last_block = None
-        if not os.path.isfile(ActiveChain.WRITE_PATH):
+        if not os.path.isfile(self.write_path):
             a = []
-            if not os.path.isfile(ActiveChain.WRITE_PATH):
+            if not os.path.isfile(self.write_path):
                 a.append(str(self.create_genesis_block()))
-                with open(ActiveChain.WRITE_PATH, mode='w') as f:
+                with open(self.write_path, mode='w') as f:
                     f.write(json.dumps(a))
                     print(f'Block # 0 mined')
                     print(f'new block with hash {self.last_block.current_hash} successfully validated')
@@ -44,15 +45,14 @@ class Blockchain:
         # function that check if there are enough blocks mined so difficulty to be increased
         self.check_for_difficulty_change()
 
-    @staticmethod
-    def get_last_block() -> str:
+    def get_last_block(self) -> str:
         """
         This function get the string value of the last block from the blockchain file.
 
         Return:
         str: Return the string representation of the last block from the blockchain file.
         """
-        with open(ActiveChain.WRITE_PATH) as json_file:
+        with open(self.write_path) as json_file:
             feeds = json.load(json_file)
             return ast.literal_eval(feeds[-1])
 
@@ -126,7 +126,7 @@ class Blockchain:
         Return:
         None
         """
-        self.difficulty = get_diff(ActiveChain.WRITE_PATH) + 1
+        self.difficulty = get_diff(self.write_path) + 1
 
     def check_for_difficulty_change(self) -> None:
         from project import blockchain_as_list
@@ -137,5 +137,5 @@ class Blockchain:
         Return:
         None
         """
-        if len(blockchain_as_list()) % self.BLOCKS_ADJUSTMENT == 0:
+        if len(blockchain_as_list(file=self.write_path)) % self.BLOCKS_ADJUSTMENT == 0:
             self.change_difficulty()

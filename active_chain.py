@@ -3,27 +3,27 @@ import os
 
 
 class ActiveChain:
-    # name of the blockchain file
-    WRITE_PATH = 'data.json'
-
     """
     A class representing the active blockchain.
 
     Attributes:
         blockchain (Blockchain): The blockchain that is active.
+        write_path: name of the blockchain file
     """
 
-    def __init__(self, blockchain) -> None:
+    def __init__(self, blockchain, write_path='data.json') -> None:
         """
         Initializes an ActiveChain object.
 
         Parameters:
             blockchain (Blockchain): The blockchain that is active.
+            write_path(str): name of the blockchain file
 
         Return:
         None
         """
         self.blockchain = blockchain
+        self.write_path = write_path
 
     def add_to_chain(self, block) -> None:
         """
@@ -36,26 +36,24 @@ class ActiveChain:
         None
         """
         if self.blockchain.is_valid(block):
-
-            if not os.path.isfile(self.WRITE_PATH):
+            if not os.path.isfile(self.write_path):
                 a = [str(self.blockchain.create_genesis_block())]
-                with open(self.WRITE_PATH, mode='w') as f:
+                with open(self.write_path, mode='w') as f:
                     f.write(json.dumps(a))
                     self.print_in_terminal_block_validated()
                     self.print_in_terminal_block_mined()
             else:
-                with open(self.WRITE_PATH) as old_json:
+                with open(self.write_path) as old_json:
                     feeds = json.load(old_json)
                 feeds.append(str(self.blockchain.add_block(block)))
-                with open(self.WRITE_PATH, mode='w') as f:
+                with open(self.write_path, mode='w') as f:
                     f.write(json.dumps(feeds))
                 self.print_in_terminal_block_validated()
                 self.print_in_terminal_block_mined()
 
-    @staticmethod
-    def print_in_terminal_block_mined() -> None:
+    def print_in_terminal_block_mined(self) -> None:
         from project import blockchain_as_list
-        print(f'Block # {len(blockchain_as_list()) - 1} mined')
+        print(f'Block # {len(blockchain_as_list(file=self.write_path)) - 1} mined')
 
     def print_in_terminal_block_validated(self) -> None:
         print(f'New block with hash {self.blockchain.last_block.current_hash} successfully validated')

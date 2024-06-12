@@ -13,11 +13,12 @@ app = Flask(__name__)
 api = Api(app)
 
 INDEX = "index.html"
+name_of_blockchain_file = 'data.json'
 
 
 @app.route("/", methods=["GET", "POST"])
 def main():
-    diff = get_difficulty()
+    diff = get_difficulty(file=name_of_blockchain_file)
     test_blockchain = Blockchain(diff)
     chain = ActiveChain(test_blockchain)
     all_chain = blockchain_as_list()
@@ -32,7 +33,7 @@ def main():
     return render_template(INDEX, all_chain=all_chain)
 
 
-def get_difficulty(file=ActiveChain.WRITE_PATH) -> int:
+def get_difficulty(file=name_of_blockchain_file) -> int:
     """
     This function return the difficulty of the blockchain based on the info from the previous block.
 
@@ -49,7 +50,7 @@ def get_difficulty(file=ActiveChain.WRITE_PATH) -> int:
             return int(diff)
 
 
-def blockchain_as_list(file=ActiveChain.WRITE_PATH) -> list:
+def blockchain_as_list(file=name_of_blockchain_file) -> list:
     """
     This function check if there is a file used as a blockchain and if there is such a file extracts the block's
     data and save each block data in a list.
