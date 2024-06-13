@@ -1,6 +1,6 @@
 # Python Blockchain Project
 
-#### Video Demo:  <URL HERE>
+#### Video Demo:  https://youtu.be/TD8tEFhFlFk
 
 #### Description:
 A demo of a blockchain written in python with local data.json file that stores the blockchain info. Each block has a data,
@@ -20,13 +20,22 @@ python -m venv myenv
 ```
 - Activate environment by navigating to myenv/Scripts and execute following command:
 ```
+cd myenv/Scripts
+```
+```
 activate.bat
 ```
 - Clone the repository in the parent directory e.g. C:\Users\youruser\Desktop\python_blockchain_project
 ```
+cd ../.. 
+```
+```
 git clone https://github.com/bozhimirov/python_blockchain_project
 ```
 - Navigate to the project directory and install requirements.txt with following command:
+```
+cd python_blockchain_project
+```
 ```
 pip install -r requirements.txt
 ```
