@@ -1,6 +1,5 @@
 # Python Blockchain Project
 
-#### Video Demo:  https://youtu.be/TD8tEFhFlFk
 
 #### Description:
 A demo of a blockchain written in python with local data.json file that stores the blockchain info. Each block has a data,
