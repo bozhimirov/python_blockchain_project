@@ -1,5 +1,7 @@
 import ast
 import os
+import pathlib
+
 import pytest
 
 from block import Block
@@ -7,13 +9,15 @@ from active_chain import ActiveChain
 from blockchain import Blockchain
 from project import get_difficulty, blockchain_as_list, make_data
 
-# file = 'data.json'
+
+folder = pathlib.Path().absolute()
 file = 'demo.json'
+path = os.path.join(folder, file)
 
 
 def remove_file():
-    if os.path.isfile(file):
-        os.remove(file)
+    if os.path.exists(path):
+        os.remove(path)
 
 
 def test_block():
@@ -36,9 +40,9 @@ def test_block_with_difficulty():
 
 def test_blockchain_creation():
     remove_file()
-    assert os.path.isfile(file) == False
+    assert os.path.exists(path) == False
     test_chain = Blockchain(write_path=file)
-    assert os.path.isfile(file) == True
+    assert os.path.exists(path) == True
     assert test_chain.last_block.data == 'Genesis Block'
     remove_file()
 

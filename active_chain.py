@@ -1,5 +1,6 @@
 import json
 import os
+import pathlib
 
 
 class ActiveChain:
@@ -36,17 +37,19 @@ class ActiveChain:
         None
         """
         if self.blockchain.is_valid(block):
-            if not os.path.isfile(self.write_path):
+            folder = pathlib.Path().absolute()
+            path = os.path.join(folder, self.write_path)
+            if not os.path.exists(path):
                 a = [str(self.blockchain.create_genesis_block())]
-                with open(self.write_path, mode='w') as f:
+                with open(path, mode='w') as f:
                     f.write(json.dumps(a))
                     self.print_in_terminal_block_validated()
                     self.print_in_terminal_block_mined()
             else:
-                with open(self.write_path) as old_json:
+                with open(path) as old_json:
                     feeds = json.load(old_json)
                 feeds.append(str(self.blockchain.add_block(block)))
-                with open(self.write_path, mode='w') as f:
+                with open(path, mode='w') as f:
                     f.write(json.dumps(feeds))
                 self.print_in_terminal_block_validated()
                 self.print_in_terminal_block_mined()

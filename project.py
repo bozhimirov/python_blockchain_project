@@ -1,6 +1,6 @@
-import ast
 import json
 import os
+import pathlib
 
 from flask import Flask, render_template, request
 from flask_restful import Api
@@ -92,4 +92,6 @@ def make_data(block) -> dict:
 
 
 if __name__ == '__main__':
+
+    print(pathlib.Path().absolute())
     app.run(debug=True)

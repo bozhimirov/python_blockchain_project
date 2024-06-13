@@ -3,7 +3,7 @@
 #### Video Demo:  <URL HERE>
 
 #### Description:
-Demo of a blockchain written in python with local data.json file that stores the blockchain info. Each block has a data,
+A demo of a blockchain written in python with local data.json file that stores the blockchain info. Each block has a data,
 timestamp, previous hash, difficulty, nonce and current hash. After initiation automatically is generated genesis block 
 and a data file is created to store the blocks. After that from the UI users can add data to blockchain. Each block, 
 once created, cannot be deleted from the data file. Each time the project is run the data is added to the already 
@@ -22,15 +22,15 @@ python -m venv myenv
 ```
 activate.bat
 ```
-- Clone the repository
+- Clone the repository in the parent directory e.g. C:\Users\youruser\Desktop\python_blockchain_project
 ```
 git clone https://github.com/bozhimirov/python_blockchain_project
 ```
-- Install requirements.txt with following command:
+- Navigate to the project directory and install requirements.txt with following command:
 ```
 pip install -r requirements.txt
 ```
-- Run the tests before first initialization or after any changes in the code are made
+- Run the tests before first initialization or after any changes in the code
 ```
 pytest test_project.py
 ```
